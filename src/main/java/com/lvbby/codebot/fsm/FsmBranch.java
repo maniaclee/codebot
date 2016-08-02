@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class FsmBranch<T, C> {
     T t;
-    FSMCondition<T> condition;
+    FSMCondition<T, C> condition;
     List<StatusHandler<C>> handlers = new LinkedList<>();
 
 
@@ -20,11 +20,11 @@ public class FsmBranch<T, C> {
         this.t = t;
     }
 
-    public FSMCondition<T> getCondition() {
+    public FSMCondition<T, C> getCondition() {
         return condition;
     }
 
-    public void setCondition(FSMCondition<T> condition) {
+    public void setCondition(FSMCondition<T, C> condition) {
         this.condition = condition;
     }
 
