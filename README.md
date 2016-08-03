@@ -1,6 +1,6 @@
 # CodeBot
 
-###some common framework for developing java app such as chain & FSM
+> some common framework for developing java app such as chain & FSM
 
 You can use **Chain** package to build pluggable,reusable application.
 
