@@ -6,8 +6,14 @@ import java.util.List;
 /**
  * Created by peng on 16/7/30.
  */
-public abstract class ContextTaskPipedHandler<T, R> extends ContextTaskHandler<T, R> {
+public class ContextTaskPipedHandler<T, R> implements ContextHandler<T> {
     private List<PipeLine<R, T>> pipeLines = new LinkedList<>();
+    private ContextTask<T, R> contextTask;
+    private R result;
+
+    public ContextTaskPipedHandler(ContextTask<T, R> contextTask) {
+        this.contextTask = contextTask;
+    }
 
     public ContextTaskPipedHandler<T, R> addPipeLine(PipeLine<R, T> pipeLine) {
         pipeLines.add(pipeLine);
@@ -23,18 +29,15 @@ public abstract class ContextTaskPipedHandler<T, R> extends ContextTaskHandler<T
     }
 
     @Override
-    public R process(T context) {
-        R t = doProcess(context);
+    public void handle(T context) {
+        R result = contextTask.process(context);
         for (PipeLine<R, T> pipeLine : pipeLines) {
             try {
-                pipeLine.handle(t, context);
+                pipeLine.handle(result, context);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }
-        return t;
+        this.result = result;
     }
-
-    public abstract R doProcess(T context);
-
 }
